@@ -4,6 +4,7 @@ import { useState, useEffect, useActionState, startTransition } from "react";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 import "dayjs/locale/ko";
+import Linkify from "linkify-react";
 import {
   EraserIcon,
   MessageCircle,
@@ -42,6 +43,14 @@ import {
 
 dayjs.extend(relativeTime);
 dayjs.locale("ko");
+
+const linkifyOptions = {
+  attributes: {
+    target: "_blank",
+    rel: "noopener noreferrer nofollow",
+  },
+  className: "text-orange-700 underline underline-offset-2",
+};
 
 export default function CommentItem({
   comment,
@@ -202,11 +211,11 @@ export default function CommentItem({
               </Form>
             ) : comment.removed ? (
               <div className="text-muted-foreground mb-2 text-sm whitespace-pre-wrap italic">
-                {comment.content}
+                <Linkify options={linkifyOptions}>{comment.content}</Linkify>
               </div>
             ) : (
               <div className="mb-2 text-sm whitespace-pre-wrap">
-                {comment.content}
+                <Linkify options={linkifyOptions}>{comment.content}</Linkify>
               </div>
             )}
 
