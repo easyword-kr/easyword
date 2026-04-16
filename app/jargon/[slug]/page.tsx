@@ -7,6 +7,10 @@ import ShareButton from "@/components/share-button";
 import { Comment } from "@/types/comment";
 import JargonTranslationsSection from "@/components/jargon/jargon-translations-section";
 import UpdateJargonCategoriesDialog from "@/components/jargon/update-jargon-categories-dialog";
+import JargonExamplesSection from "@/components/example/jargon-examples-section";
+import type { Example } from "@/types/example";
+
+const JARGON_EXAMPLE_LOAD_SIZE = 4;
 
 export default async function JargonDetailPage({
   params,
@@ -31,7 +35,22 @@ export default async function JargonDetailPage({
     );
   }
 
-  const { data: comments } = await QUERIES.listComments(supabase, jargon.id);
+  const [commentResults, exampleResults] = await Promise.all([
+    QUERIES.listComments(supabase, jargon.id),
+    QUERIES.listExamples(
+      supabase,
+      "",
+      "",
+      jargon.id,
+      JARGON_EXAMPLE_LOAD_SIZE,
+      0,
+    ),
+  ]);
+
+  if (commentResults.error) throw commentResults.error;
+  if (exampleResults.error) throw exampleResults.error;
+
+  const examples = (exampleResults.data ?? []) as Example[];
 
   return (
     <div className="mx-auto flex max-w-4xl flex-col gap-5">
@@ -69,11 +88,17 @@ export default async function JargonDetailPage({
         </div>
       </div>
 
+      <JargonExamplesSection
+        jargonId={jargon.id}
+        jargonName={jargon.name}
+        examples={examples}
+      />
+
       {/* comments */}
       <div className="bg-card rounded-lg p-3">
         <CommentThread
           jargonId={jargon.id}
-          initialComments={comments as Omit<Comment, "replies">[]}
+          initialComments={commentResults.data as Omit<Comment, "replies">[]}
         />
       </div>
     </div>

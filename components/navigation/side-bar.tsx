@@ -1,6 +1,13 @@
 "use client";
 
-import { Home, Lightbulb, RadioTower, Rocket, Sparkles } from "lucide-react";
+import {
+  BookOpenText,
+  Home,
+  Lightbulb,
+  RadioTower,
+  Rocket,
+  Sparkles,
+} from "lucide-react";
 import Link from "next/link";
 import GitHub from "@/components/icons/git-hub";
 import {
@@ -23,6 +30,11 @@ const features = [
     title: "홈",
     url: "/",
     icon: Home,
+  },
+  {
+    title: "예문",
+    url: "/examples",
+    icon: BookOpenText,
   },
 ];
 
@@ -61,7 +73,8 @@ export function SideBar() {
       <SidebarContent className="bg-background">
         <SidebarGroup>
           <SidebarGroupLabel>바로가기</SidebarGroupLabel>
-          <SidebarGroupContent>
+          {/* z-10을 추가하여 사이드바 메뉴가 레이블에 가려지지 않도록 함 */}
+          <SidebarGroupContent className="z-10">
             <SidebarMenu>
               {features.map((item) => (
                 <SidebarMenuItem key={item.title}>
@@ -78,7 +91,7 @@ export function SideBar() {
         </SidebarGroup>
         <SidebarGroup>
           <SidebarGroupLabel>알아보기</SidebarGroupLabel>
-          <SidebarGroupContent>
+          <SidebarGroupContent className="z-10">
             <SidebarMenu>
               {docs.map((item) => (
                 <SidebarMenuItem key={item.title}>
@@ -96,7 +109,7 @@ export function SideBar() {
         {isAdmin && (
           <SidebarGroup>
             <SidebarGroupLabel>관리자</SidebarGroupLabel>
-            <SidebarGroupContent>
+            <SidebarGroupContent className="z-10">
               <SidebarMenu>
                 {adminItems.map((item) => (
                   <SidebarMenuItem key={item.title}>

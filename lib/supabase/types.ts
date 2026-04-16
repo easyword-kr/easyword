@@ -7,31 +7,6 @@ export type Json =
   | Json[]
 
 export type Database = {
-  graphql_public: {
-    Tables: {
-      [_ in never]: never
-    }
-    Views: {
-      [_ in never]: never
-    }
-    Functions: {
-      graphql: {
-        Args: {
-          extensions?: Json
-          operationName?: string
-          query?: string
-          variables?: Json
-        }
-        Returns: Json
-      }
-    }
-    Enums: {
-      [_ in never]: never
-    }
-    CompositeTypes: {
-      [_ in never]: never
-    }
-  }
   public: {
     Tables: {
       category: {
@@ -120,6 +95,110 @@ export type Database = {
             columns: ["translation_id"]
             isOneToOne: true
             referencedRelation: "translation"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      example: {
+        Row: {
+          author_id: string
+          created_at: string
+          id: string
+          source_text: string
+          updated_at: string
+        }
+        Insert: {
+          author_id: string
+          created_at?: string
+          id?: string
+          source_text: string
+          updated_at?: string
+        }
+        Update: {
+          author_id?: string
+          created_at?: string
+          id?: string
+          source_text?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "example_author_id_fkey"
+            columns: ["author_id"]
+            isOneToOne: false
+            referencedRelation: "profile"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      example_jargon: {
+        Row: {
+          example_id: string
+          jargon_id: string
+        }
+        Insert: {
+          example_id: string
+          jargon_id: string
+        }
+        Update: {
+          example_id?: string
+          jargon_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "example_jargon_example_id_fkey"
+            columns: ["example_id"]
+            isOneToOne: false
+            referencedRelation: "example"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "example_jargon_jargon_id_fkey"
+            columns: ["jargon_id"]
+            isOneToOne: false
+            referencedRelation: "jargon"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      example_translation: {
+        Row: {
+          author_id: string
+          created_at: string
+          example_id: string
+          id: string
+          translated_text: string
+          updated_at: string
+        }
+        Insert: {
+          author_id: string
+          created_at?: string
+          example_id: string
+          id?: string
+          translated_text: string
+          updated_at?: string
+        }
+        Update: {
+          author_id?: string
+          created_at?: string
+          example_id?: string
+          id?: string
+          translated_text?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "example_translation_author_id_fkey"
+            columns: ["author_id"]
+            isOneToOne: false
+            referencedRelation: "profile"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "example_translation_example_id_fkey"
+            columns: ["example_id"]
+            isOneToOne: false
+            referencedRelation: "example"
             referencedColumns: ["id"]
           },
         ]
@@ -412,6 +491,10 @@ export type Database = {
       }
     }
     Functions: {
+      add_example_translation: {
+        Args: { p_example_id: string; p_translated_text: string }
+        Returns: string
+      }
       admin_remove_featured: {
         Args: { p_translation_id: string }
         Returns: boolean
@@ -420,10 +503,7 @@ export type Database = {
         Args: { p_featured_rank: number; p_translation_id: string }
         Returns: boolean
       }
-      count_search_jargons: {
-        Args: { search_query?: string }
-        Returns: number
-      }
+      count_search_jargons: { Args: { search_query?: string }; Returns: number }
       create_comment: {
         Args: { p_content: string; p_jargon_id: string; p_parent_id?: string }
         Returns: string
@@ -437,44 +517,66 @@ export type Database = {
         }
         Returns: string
       }
-      delete_claim: {
-        Args: { claim: string; uid: string }
+      create_example: {
+        Args: {
+          p_jargon_ids?: string[]
+          p_source_text: string
+          p_translation: string
+        }
         Returns: string
       }
-      generate_slug: {
-        Args: { input_text: string }
-        Returns: string
-      }
-      get_claim: {
-        Args: { claim: string; uid: string }
-        Returns: Json
-      }
-      get_claims: {
-        Args: { uid: string }
-        Returns: Json
-      }
-      get_my_claim: {
-        Args: { claim: string }
-        Returns: Json
-      }
-      get_my_claims: {
-        Args: Record<PropertyKey, never>
-        Returns: Json
-      }
-      is_claims_admin: {
-        Args: Record<PropertyKey, never>
+      delete_claim: { Args: { claim: string; uid: string }; Returns: string }
+      delete_example: { Args: { p_example_id: string }; Returns: boolean }
+      delete_example_translation: {
+        Args: { p_example_translation_id: string }
         Returns: boolean
+      }
+      generate_slug: { Args: { input_text: string }; Returns: string }
+      get_claim: { Args: { claim: string; uid: string }; Returns: Json }
+      get_claims: { Args: { uid: string }; Returns: Json }
+      get_example: {
+        Args: { example_id: string }
+        Returns: {
+          author: Json
+          created_at: string
+          id: string
+          jargons: Json
+          source_text: string
+          translations: Json
+          updated_at: string
+        }[]
+      }
+      get_my_claim: { Args: { claim: string }; Returns: Json }
+      get_my_claims: { Args: never; Returns: Json }
+      is_claims_admin: { Args: never; Returns: boolean }
+      list_examples: {
+        Args: {
+          jargon_query?: string
+          limit_count?: number
+          offset_count?: number
+          p_jargon_id?: string
+          search_query?: string
+        }
+        Returns: {
+          author: Json
+          created_at: string
+          id: string
+          jargons: Json
+          source_text: string
+          translations: Json
+          updated_at: string
+        }[]
       }
       list_featured_jargons: {
         Args: { limit_count?: number }
         Returns: {
-          comments: Json
-          updated_at: string
-          translation: string
           categories: Json
+          comments: Json
           id: string
           name: string
           slug: string
+          translation: string
+          updated_at: string
         }[]
       }
       list_jargon_random: {
@@ -487,15 +589,15 @@ export type Database = {
           slug: string
           updated_at: string
         }[]
+        SetofOptions: {
+          from: "*"
+          to: "jargon"
+          isOneToOne: false
+          isSetofReturn: true
+        }
       }
-      remove_comment: {
-        Args: { p_comment_id: string }
-        Returns: boolean
-      }
-      remove_jargon: {
-        Args: { p_jargon_id: string }
-        Returns: boolean
-      }
+      remove_comment: { Args: { p_comment_id: string }; Returns: boolean }
+      remove_jargon: { Args: { p_jargon_id: string }; Returns: boolean }
       remove_translation: {
         Args: { p_translation_id: string }
         Returns: boolean
@@ -509,12 +611,12 @@ export type Database = {
           sort_option?: string
         }
         Returns: {
-          comments: Json
-          name: string
           categories: Json
-          translations: Json
+          comments: Json
           id: string
+          name: string
           slug: string
+          translations: Json
           updated_at: string
         }[]
       }
@@ -546,8 +648,8 @@ export type Database = {
         }
         Returns: {
           comment_id: string
-          jargon_slug: string
           jargon_id: string
+          jargon_slug: string
           translation_id: string
         }[]
       }
@@ -566,8 +668,8 @@ export type Database = {
           p_translation: string
         }
         Returns: {
-          translation_id: string
           comment_id: string
+          translation_id: string
         }[]
       }
       to_lowercase: {
@@ -588,11 +690,19 @@ export type Database = {
         Args: { p_comment_id: string; p_content: string }
         Returns: boolean
       }
+      update_example: {
+        Args: { p_example_id: string; p_source_text: string }
+        Returns: boolean
+      }
+      update_example_translation: {
+        Args: { p_example_translation_id: string; p_translated_text: string }
+        Returns: boolean
+      }
       update_jargon: {
         Args: { p_jargon_id: string; p_name: string }
         Returns: {
-          jargon_slug: string
           jargon_id: string
+          jargon_slug: string
         }[]
       }
       update_jargon_categories: {
@@ -601,6 +711,10 @@ export type Database = {
       }
       update_translation: {
         Args: { p_name: string; p_translation_id: string }
+        Returns: boolean
+      }
+      upsert_example_jargon: {
+        Args: { p_example_id: string; p_jargon_id: string }
         Returns: boolean
       }
     }
@@ -731,9 +845,6 @@ export type CompositeTypes<
     : never
 
 export const Constants = {
-  graphql_public: {
-    Enums: {},
-  },
   public: {
     Enums: {},
   },

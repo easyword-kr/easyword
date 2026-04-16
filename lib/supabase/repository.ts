@@ -31,6 +31,30 @@ export const QUERIES = {
     return query;
   },
 
+  listExamples: function (
+    supabase: SupabaseClient<Database>,
+    searchQuery: string,
+    jargonQuery: string,
+    jargonId: string | null,
+    limitCount: number,
+    offsetCount: number,
+    options?: { signal?: AbortSignal },
+  ) {
+    let query = supabase.rpc("list_examples", {
+      search_query: searchQuery,
+      jargon_query: jargonQuery,
+      p_jargon_id: jargonId ?? undefined,
+      limit_count: limitCount,
+      offset_count: offsetCount,
+    });
+    if (options?.signal) query = query.abortSignal(options.signal);
+    return query;
+  },
+
+  getExample: function (supabase: SupabaseClient<Database>, exampleId: string) {
+    return supabase.rpc("get_example", { example_id: exampleId }).maybeSingle();
+  },
+
   countJargons: function (
     supabase: SupabaseClient<Database>,
     searchQuery: string,
@@ -202,6 +226,19 @@ export const MUTATIONS = {
         p_comment: comment,
       })
       .single();
+  },
+
+  createExample: function (
+    supabase: SupabaseClient<Database>,
+    sourceText: string,
+    translation: string,
+    jargonIds: string[],
+  ) {
+    return supabase.rpc("create_example", {
+      p_source_text: sourceText,
+      p_translation: translation,
+      p_jargon_ids: jargonIds,
+    });
   },
 
   createComment: function (

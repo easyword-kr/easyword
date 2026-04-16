@@ -1,11 +1,14 @@
 import { createClient } from "@/lib/supabase/server";
 import HomePageClient, { SortOption } from "@/components/home/home-page-client";
 import FeaturedJargonCarousel from "@/components/home/featured-jargon-carousel";
+import LatestExamplesSection from "@/components/example/latest-examples-section";
 import { QUERIES } from "@/lib/supabase/repository";
 import type { Json } from "@/lib/supabase/types";
+import type { Example } from "@/types/example";
 
 const INITIAL_LOAD_SIZE = 32;
 const FEATURED_LOAD_SIZE = 100;
+const LATEST_EXAMPLE_LOAD_SIZE = 4;
 
 function isJsonObject(value: Json): value is Record<string, Json> {
   return typeof value === "object" && value !== null && !Array.isArray(value);
@@ -47,22 +50,25 @@ export default async function Home({
 
   const supabase = await createClient();
 
-  const [countResult, jargonResults, featuredResults] = await Promise.all([
-    QUERIES.countJargons(supabase, searchQuery),
-    QUERIES.searchJargons(
-      supabase,
-      searchQuery,
-      INITIAL_LOAD_SIZE,
-      0,
-      sort,
-      categories,
-    ),
-    QUERIES.listFeaturedJargons(supabase, FEATURED_LOAD_SIZE),
-  ]);
+  const [countResult, jargonResults, featuredResults, exampleResults] =
+    await Promise.all([
+      QUERIES.countJargons(supabase, searchQuery),
+      QUERIES.searchJargons(
+        supabase,
+        searchQuery,
+        INITIAL_LOAD_SIZE,
+        0,
+        sort,
+        categories,
+      ),
+      QUERIES.listFeaturedJargons(supabase, FEATURED_LOAD_SIZE),
+      QUERIES.listExamples(supabase, "", "", null, LATEST_EXAMPLE_LOAD_SIZE, 0),
+    ]);
 
   if (jargonResults.error) throw jargonResults.error;
   if (countResult.error) throw countResult.error;
   if (featuredResults.error) throw featuredResults.error;
+  if (exampleResults.error) throw exampleResults.error;
 
   const initialData = jargonResults.data.map((item) => ({
     id: item.id,
@@ -84,10 +90,12 @@ export default async function Home({
     categories: extractStringArray(item.categories, "acronym"),
     comment_count: extractCommentCount(item.comments),
   }));
+  const latestExamples = (exampleResults.data ?? []) as Example[];
 
   return (
     <div className="mx-auto flex max-w-7xl flex-col gap-8">
       <FeaturedJargonCarousel featuredJargons={featuredJargons} />
+      <LatestExamplesSection examples={latestExamples} />
       <HomePageClient
         searchQuery={searchQuery}
         initialData={initialData}
