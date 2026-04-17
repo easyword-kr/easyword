@@ -34,14 +34,9 @@ export default function BackgroundPage() {
           한문투?
           <span className="text-red-600"> No. </span>쉬운말?
           <span className="text-blue-600"> Yes! </span>
-          <Link
-            href="https://youtu.be/fRLPpOL5b_4"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="hover:text-foreground underline underline-offset-4"
-          >
-            <YouTube className="mb-1 ml-1 inline-block size-5.5 text-red-600" />
-          </Link>
+          <span className="text-blue-600">
+            <Link href="https://drive.google.com/file/d/1FfgO2lupwUxWp8uRSRBtymQXmJxsX1VA/view?usp=drive_link">
+            [두 개의 터널]</Link> </span>
         </p>
       </div>
 
@@ -52,9 +47,9 @@ export default function BackgroundPage() {
         <ul className="list-disc pl-6 leading-7">
           <li>
             <p className="text-foreground leading-7">
-              전문지식이 전문가들에게만 머문다면 그 분야는 그렇게 쇠퇴할 수
+              전문지식이 전문가들에게만 머물면 그 분야는 쇠퇴할 수
               있다. 저변이 좁아지고 깊은 공부를 달성하는 인구는 그만큼 쪼그라들
-              수 있다.
+              수 있기때문이다.
             </p>
             <p className="text-foreground leading-7">
               전문지식이 보다 많은 사람들에게 널리 퍼진다면, 그래서 더 발전할
