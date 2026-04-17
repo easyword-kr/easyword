@@ -1,6 +1,5 @@
 import Link from "next/link";
 import { Separator } from "@/components/ui/separator";
-import YouTube from "@/components/icons/you-tube";
 
 export const metadata = {
   title: "배경 | 쉬운 전문용어",
@@ -14,16 +13,11 @@ export default function BackgroundPage() {
         <h1 className="text-3xl font-bold">쉬운 전문용어</h1>
       </header>
       <div className="text-right text-sm">
-        <Link
-          href="https://kwangkeunyi.snu.ac.kr"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="hover:text-foreground underline underline-offset-4"
-        >
+        <MyLink href="https://kwangkeunyi.snu.ac.kr">
           한국정보과학회 쉬운전문용어 제정위원회
           <br />
           서울대학교 컴퓨터공학부 이광근
-        </Link>
+        </MyLink>
       </div>
 
       <Separator />
@@ -35,8 +29,10 @@ export default function BackgroundPage() {
           <span className="text-red-600"> No. </span>쉬운말?
           <span className="text-blue-600"> Yes! </span>
           <span className="text-blue-600">
-            <Link href="https://drive.google.com/file/d/1FfgO2lupwUxWp8uRSRBtymQXmJxsX1VA/view?usp=drive_link">
-            [두 개의 터널]</Link> </span>
+            <MyLink href="https://drive.google.com/file/d/1FfgO2lupwUxWp8uRSRBtymQXmJxsX1VA/view?usp=drive_link">
+              [두 개의 터널]
+            </MyLink>
+          </span>
         </p>
       </div>
 
@@ -47,9 +43,9 @@ export default function BackgroundPage() {
         <ul className="list-disc pl-6 leading-7">
           <li>
             <p className="text-foreground leading-7">
-              전문지식이 전문가들에게만 머물면 그 분야는 쇠퇴할 수
-              있다. 저변이 좁아지고 깊은 공부를 달성하는 인구는 그만큼 쪼그라들
-              수 있기때문이다.
+              전문지식이 전문가들에게만 머물면 그 분야는 쇠퇴할 수 있다. 저변이
+              좁아지고 깊은 공부를 달성하는 인구는 그만큼 쪼그라들 수
+              있기때문이다.
             </p>
             <p className="text-foreground leading-7">
               전문지식이 보다 많은 사람들에게 널리 퍼진다면, 그래서 더 발전할
@@ -158,5 +154,24 @@ export default function BackgroundPage() {
         </ul>
       </section>
     </div>
+  );
+}
+
+function MyLink({
+  href,
+  children,
+}: {
+  href: string;
+  children: React.ReactNode;
+}) {
+  return (
+    <Link
+      href={href}
+      target="_blank"
+      rel="noopener noreferrer"
+      className="hover:text-foreground underline underline-offset-4"
+    >
+      {children}
+    </Link>
   );
 }
