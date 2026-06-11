@@ -154,6 +154,21 @@ export const QUERIES = {
     return query.maybeSingle();
   },
 
+  listJargonsForExport: function (
+    supabase: SupabaseClient<Database>,
+    offset: number,
+    limit: number,
+  ) {
+    return supabase
+      .from("jargon")
+      .select(
+        "name, slug, translations:translation(name, llm_rank), categories:jargon_category(category:category(acronym))",
+      )
+      .order("name", { ascending: true })
+      .order("id", { ascending: true })
+      .range(offset, offset + limit - 1);
+  },
+
   listAllFeaturedTranslations: function (supabase: SupabaseClient<Database>) {
     return supabase
       .from("translation")

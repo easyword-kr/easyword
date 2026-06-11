@@ -1,6 +1,13 @@
 "use client";
 
-import { Home, Lightbulb, RadioTower, Rocket, Sparkles } from "lucide-react";
+import {
+  Download,
+  Home,
+  Lightbulb,
+  RadioTower,
+  Rocket,
+  Sparkles,
+} from "lucide-react";
 import Link from "next/link";
 import GitHub from "@/components/icons/git-hub";
 import {
@@ -111,6 +118,20 @@ export function SideBar() {
                     </SidebarMenuButton>
                   </SidebarMenuItem>
                 ))}
+                <SidebarMenuItem>
+                  <SidebarMenuButton asChild>
+                    {/* Plain <a> so the browser downloads the CSV instead of
+                        client-side navigating (and Link would prefetch it) */}
+                    <a
+                      href="/admin/export/jargons"
+                      download
+                      onClick={() => setOpenMobile(false)}
+                    >
+                      <Download />
+                      <span>용어 CSV 다운로드</span>
+                    </a>
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
               </SidebarMenu>
             </SidebarGroupContent>
           </SidebarGroup>
