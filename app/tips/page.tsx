@@ -6,9 +6,52 @@ export const metadata = {
 export default function TipsPage() {
   return (
     <div className="mx-auto flex w-full max-w-3xl flex-col gap-6">
-      <header className="flex flex-col gap-1">
-        <h1 className="text-3xl font-bold">쉬운 번역팁</h1>
-      </header>
+       <section className="flex flex-col gap-3">
+        <h1 className="text-2xl font-semibold">원칙</h1>
+        <ul className="list-disc pl-6 leading-7">
+          <li>
+            <strong>정확히 이해하기</strong>: 전문용어의 의미를 정확히
+            이해하도록 한다. 이해못했다면 쉬운말을 찾을 수 없다.
+          </li>
+          <li>
+            <strong>쉬운말을 찾기</strong>: 그 의미가 정확히 전달되는 쉬운말을
+            찾는다.
+          </li>
+          <li>
+            <strong>어깨힘 빼기</strong>: 이때, 어깨에 힘을 뺀다. 지레
+            겁먹게하는 용어(불필요한 한문투)를 피하고, 가능하면 쉬운말을 찾는다.
+          </li>
+          <li>
+            <strong>하나만일 필요는 없다</strong>: 전문용어 하나에 쉬운 한글용어
+            하나가 일대일 대응일 필요가 없이, 상황에 따라서 다양하게 풀어쓸 수
+            있다. 중요한 것은 의미의 명확한 전개.
+          </li>
+          <li>
+            <strong>때로는 소리나는 대로</strong>: 도저히 쉬운말을 찾을 수 없을
+            땐, 소리나는대로 쓴다.
+          </li>
+          <li>
+            <strong>때로는 만들기</strong>: 쉬운 느낌을 가진 새 말을 만들 수도
+            있다. 우리가 모국어의 심연을 공유하므로 가능하다.
+          </li>
+          <li>
+            <strong>괄호안에 항상-I</strong>: 원문 전문용어는 괄호안에 항상
+            따라붙인다.
+          </li>
+          <li>
+            <strong>깨어있기</strong>: 기존의 관성에 눈멀지 않는다. 이미
+            널리퍼진 용어지만 쉽지않다면, 보다 쉬운 전문용어를 찾고 실험한다.
+          </li>
+          <li>
+            <strong>괄호안에 항상-II</strong>: 이때, 기존용어는 원문 전문용어와
+            함께 괄호안에 따라붙인다.
+          </li>
+          <li>
+            <strong>순우리말 No, 쉬운말 Yes</strong>: 쉬운말은 순수 우리말을
+            뜻하지 않는다. 외래어라도 널리 쉽게 받아들여진다면 사용한다.
+          </li>
+        </ul>
+      </section>
 
       <section className="flex flex-col gap-3">
         <ul className="list-disc pl-6 leading-7">
