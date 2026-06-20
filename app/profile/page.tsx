@@ -5,8 +5,9 @@ import relativeTime from "dayjs/plugin/relativeTime";
 import { LogoutButton } from "@/components/auth/logout-button";
 import { createClient } from "@/lib/supabase/server";
 import { QUERIES } from "@/lib/supabase/repository";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import DisplayNameForm from "@/components/profile/display-name-form";
 import "dayjs/locale/ko";
 
 dayjs.extend(relativeTime);
@@ -41,9 +42,10 @@ export default async function Profile() {
             <AvatarFallback>{initials}</AvatarFallback>
           </Avatar>
           <div className="flex flex-col">
-            <CardTitle className="text-xl">
-              {profile?.display_name ?? "이름 없는 사용자"}
-            </CardTitle>
+            <DisplayNameForm
+              userId={user.id}
+              initialName={profile?.display_name ?? ""}
+            />
             <span className="text-muted-foreground text-sm">{user.email}</span>
           </div>
           <div className="ml-auto">

@@ -186,6 +186,17 @@ export const QUERIES = {
 };
 
 export const MUTATIONS = {
+  updateDisplayName: function (
+    supabase: SupabaseClient<Database>,
+    userId: string,
+    displayName: string,
+  ) {
+    return supabase
+      .from("profile")
+      .update({ display_name: displayName })
+      .eq("id", userId);
+  },
+
   suggestJargon: function (
     supabase: SupabaseClient<Database>,
     jargon: string,
