@@ -6,7 +6,7 @@ export const metadata = {
 export default function TipsPage() {
   return (
     <div className="mx-auto flex w-full max-w-3xl flex-col gap-6">
-       <section className="flex flex-col gap-3">
+      <section className="flex flex-col gap-3">
         <h1 className="text-2xl font-semibold">원칙</h1>
         <ul className="list-disc pl-6 leading-7">
           <li>
@@ -54,6 +54,7 @@ export default function TipsPage() {
       </section>
 
       <section className="flex flex-col gap-3">
+        <h1 className="text-2xl font-semibold">쉬운 번역팁</h1>
         <ul className="list-disc pl-6 leading-7">
           <li>
             <strong>non-XX</strong>: {"'비XX'"} 대신에 간혹 {"'XX 외'"}가 좋을
