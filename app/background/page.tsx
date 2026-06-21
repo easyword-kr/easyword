@@ -29,7 +29,7 @@ export default function BackgroundPage() {
           <span className="text-red-600"> No. </span>쉬운말?
           <span className="text-blue-600"> Yes! </span>
           <span className="text-blue-600">
-            <MyLink href="https://drive.google.com/file/d/1FfgO2lupwUxWp8uRSRBtymQXmJxsX1VA/view?usp=drive_link">
+            <MyLink href="https://drive.google.com/file/u/0/d/1FfgO2lupwUxWp8uRSRBtymQXmJxsX1VA/preview">
               [두 개의 터널]
             </MyLink>
           </span>
